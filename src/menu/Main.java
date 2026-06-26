@@ -23,7 +23,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-                // Instanciación requerida en main()
+        // Instanciación requerida en main()
         // En el método main() se deben crear e interrelacionar los siguientes objetos:
 
         // Categoria 3 Con nombre y descripción distintos
@@ -161,5 +161,4 @@ public class Main {
             System.out.println(usuario);
         }
     }
-
 }
