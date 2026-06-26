@@ -10,6 +10,7 @@ public class Producto extends Base {
     // Atributos constantes de clase
     private static final String descripcionPorDefecto = "Sin descripción";
     private static final String imagenRutaPorDefecto = "src\\imagenes\\default.png";
+    private static Long productoIdCounter = 1L;
 
     // Atributos de instancia
     private String nombre;
@@ -22,7 +23,7 @@ public class Producto extends Base {
 
     // Constructor 1
     public Producto(String nombre, double precio, String descripcion, int stock, String imagen, boolean disponible, Categoria categoria) {
-        super();
+        super(productoIdCounter++);
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;

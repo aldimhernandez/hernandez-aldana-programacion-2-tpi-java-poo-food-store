@@ -11,6 +11,8 @@ import enums.Rol;
  */
 public class Usuario extends Base {
 
+    private static Long usuarioIdCounter = 1L;
+
     private String nombre;
     private String apellido;
     private String mail;
@@ -20,7 +22,7 @@ public class Usuario extends Base {
     private List<Pedido> pedidos; // Relación bidireccional usuario-pedido
 
     public Usuario(String nombre, String apellido, String mail, String celular, String contraseña, Rol rol) {
-        super();
+        super(usuarioIdCounter++);
         this.nombre = nombre;
         this.apellido = apellido;
         this.mail = mail;

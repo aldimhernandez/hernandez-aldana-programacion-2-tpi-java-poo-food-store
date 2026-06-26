@@ -14,6 +14,14 @@ import enums.FormaPago;
  */
 public class Pedido extends Base implements Calculable {
 
+    private static Long pedidoIdCounter = 1L;
+    /* Corrección examen parcial 2:
+    2. Implementar un contador estático (detallIdCounter) dentro de la clase Pedido
+    para auto-generar los IDs de los DetallePedido internamente, 
+    reforzando el concepto de composición.
+     */
+    private static Long detalleIdCounter = 1L;
+
     private LocalDate fecha;
     private Estado estado;
     private double total;
@@ -22,6 +30,7 @@ public class Pedido extends Base implements Calculable {
     private Usuario usuario; // Cada pedido debe pertenecer a un usuario especifico (relación bidireccional).
 
     public Pedido(Usuario usuario, FormaPago formaPago) {
+        super(pedidoIdCounter++);
         this.fecha = LocalDate.now();
         this.estado = Estado.PENDIENTE;
         this.total = 0.0;
@@ -76,7 +85,7 @@ public class Pedido extends Base implements Calculable {
     /*  addDetallePedido(int, Double, Producto): 
         crea un nuevo DetallePedido, lo agrega a la lista y recalcula el total. */
     public void addDetallePedido(int cantidad, Producto p) {
-        DetallePedido nuevoDetalle = new DetallePedido(cantidad, p);
+        DetallePedido nuevoDetalle = new DetallePedido(detalleIdCounter++, cantidad, p);
         detalles.add(nuevoDetalle);
         this.calcularTotal();
     }
