@@ -1,8 +1,6 @@
 package entities;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -12,18 +10,9 @@ import java.util.Objects;
  */
 public abstract class Base {
 
-    private static final Map<Class<?>, Long> CONTADORES = new HashMap<>();
-
-//    private static Long contadorId = 1L;
     private Long id;
     private boolean eliminado;
     private LocalDateTime createdAt;
-
-    public Base() {
-        this.id = generarIdPorClase(getClass());
-        this.eliminado = false;
-        this.createdAt = LocalDateTime.now();
-    }
 
     /* Corrección examen parcial 2:
     1. Modificar la clase Base para incluir un constructor que reciba un Long id, 
@@ -33,12 +22,6 @@ public abstract class Base {
         this.id = id;
         this.eliminado = false;
         this.createdAt = LocalDateTime.now();
-    }
-
-    private static Long generarIdPorClase(Class<?> clase) {
-        Long proximoId = CONTADORES.getOrDefault(clase, 0L) + 1;
-        CONTADORES.put(clase, proximoId);
-        return proximoId;
     }
 
     public Long getId() {

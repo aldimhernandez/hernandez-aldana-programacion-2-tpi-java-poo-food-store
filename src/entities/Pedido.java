@@ -14,6 +14,7 @@ import enums.FormaPago;
  */
 public class Pedido extends Base implements Calculable {
 
+    private static Long pedidoIdCounter = 1L;
     /* Corrección examen parcial 2:
     2. Implementar un contador estático (detallIdCounter) dentro de la clase Pedido
     para auto-generar los IDs de los DetallePedido internamente, 
@@ -29,7 +30,7 @@ public class Pedido extends Base implements Calculable {
     private Usuario usuario; // Cada pedido debe pertenecer a un usuario especifico (relación bidireccional).
 
     public Pedido(Usuario usuario, FormaPago formaPago) {
-        super();
+        super(pedidoIdCounter++);
         this.fecha = LocalDate.now();
         this.estado = Estado.PENDIENTE;
         this.total = 0.0;
