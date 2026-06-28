@@ -6,9 +6,9 @@ import services.ProductoService;
 import services.UsuarioService;
 import ui.MenuCategoria;
 import ui.MenuPedido;
-import ui.MenuPrincipal;
 import ui.MenuProducto;
 import ui.MenuUsuario;
+import ui.MenuPrincipal;
 
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico Integrador
