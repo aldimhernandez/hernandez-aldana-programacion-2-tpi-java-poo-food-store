@@ -28,8 +28,17 @@ public abstract class Base {
         return id;
     }
 
+    public boolean tieneID(String id) {
+        String thisID = Long.toString(this.getId());
+        return thisID.equalsIgnoreCase(id);
+    }
+
     public boolean isEliminado() {
         return eliminado;
+    }
+
+    public boolean isActive() {
+        return !isEliminado();
     }
 
     public void setEliminado(boolean eliminado) {

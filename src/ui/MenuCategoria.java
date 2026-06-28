@@ -63,6 +63,21 @@ public class MenuCategoria extends MenuCRUD {
 
     @Override
     protected void eliminar() {
-        categoriaService.eliminar();
+        System.out.println("=== ELIMINAR CATEGORÍA ===");
+
+        System.out.println();
+        this.listar();
+
+        System.out.print("Ingrese el ID de la categoria que desea eliminar: ");
+        String id = solicitarOpcion();
+
+        try {
+            Categoria categoria = categoriaService.eliminar(id);
+            System.out.println("Categoría eliminada correctamente: " + categoria.getNombre().toUpperCase());
+        } catch (DatoInvalidoException | EntidadInexistenteException mce) {
+            System.out.println("Error: " + mce.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 }
