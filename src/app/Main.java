@@ -1,9 +1,14 @@
-package menu;
+package app;
 
 import services.CategoriaService;
 import services.PedidoService;
 import services.ProductoService;
 import services.UsuarioService;
+import ui.MenuCategoria;
+import ui.MenuPedido;
+import ui.MenuProducto;
+import ui.MenuUsuario;
+import ui.MenuPrincipal;
 
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico Integrador

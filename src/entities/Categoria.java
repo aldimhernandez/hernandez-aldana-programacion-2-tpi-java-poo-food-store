@@ -11,7 +11,7 @@ import java.util.List;
 public class Categoria extends Base {
 
     private static Long categoriaIdCounter = 1L;
-    
+
     private String nombre;
     private String descripcion;
     private List<Producto> productos;
@@ -21,6 +21,14 @@ public class Categoria extends Base {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.productos = new ArrayList<>();
+    }
+
+    public boolean estaActiva() {
+        return !isEliminado();
+    }
+
+    public boolean tieneNombre(String nombre) {
+        return this.nombre.equalsIgnoreCase(nombre.trim());
     }
 
     public String getNombre() {
