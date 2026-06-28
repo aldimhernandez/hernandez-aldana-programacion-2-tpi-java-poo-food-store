@@ -23,10 +23,6 @@ public class Categoria extends Base {
         this.productos = new ArrayList<>();
     }
 
-    public boolean estaActiva() {
-        return !isEliminado();
-    }
-
     public boolean tieneNombre(String nombre) {
         return this.nombre.equalsIgnoreCase(nombre.trim());
     }
@@ -49,6 +45,14 @@ public class Categoria extends Base {
 
     public List<Producto> getProductos() {
         return productos;
+    }
+
+    public boolean productosActivos() {
+        return productos.stream().anyMatch(Producto::isActive);
+    }
+    
+    public boolean isEliminable() {
+        return !productosActivos();
     }
 
     public void agregarProducto(Producto p) {
