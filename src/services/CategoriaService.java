@@ -2,6 +2,7 @@ package services;
 
 import entities.Categoria;
 import exceptions.EntidadDuplicadaException;
+import exceptions.EntidadInexistenteException;
 import java.util.ArrayList;
 import java.util.List;
 import validations.Validation;
@@ -15,10 +16,24 @@ public class CategoriaService {
 
     private final List<Categoria> categorias = new ArrayList<>();
 
-    public Categoria listar() {
-        //TODO: 
-        System.out.println("CategoriaService listar");
-        return null;
+    public List<Categoria> listar() {
+        
+        List<Categoria> categoriasActivas = new ArrayList<>();
+        
+        for (Categoria categoria : categorias) {
+            if (categoria.estaActiva()) {
+                categoriasActivas.add(categoria);
+            }
+        }
+        
+        if (categoriasActivas.isEmpty()) {
+            throw new EntidadInexistenteException("Aún no existen categorias");
+        }
+        
+        // TODO: Probar esta validación al implementar el método eliminar.
+        // Debe listar solo categorías activas.
+        
+        return categoriasActivas;
     }
 
     public Categoria crear(String nombre, String descripcion) {
@@ -28,13 +43,9 @@ public class CategoriaService {
         if (existeCategoriaActivaConNombre(nombre)) {
             throw new EntidadDuplicadaException("Ya existe una categoría activa con ese nombre.");
         }
-        
-        System.out.println(categorias.toString());
 
         Categoria categoria = new Categoria(nombre, descripcion);
         categorias.add(categoria);
-        
-        System.out.println(categorias.toString());
  
         return categoria;
     }

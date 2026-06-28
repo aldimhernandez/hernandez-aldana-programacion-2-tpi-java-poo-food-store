@@ -10,4 +10,12 @@ public class EntidadDuplicadaException extends RuntimeException {
     public EntidadDuplicadaException(String mensaje) {
         super(mensaje);
     }
+
+    public EntidadDuplicadaException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public EntidadDuplicadaException(Throwable cause) {
+        super(cause);
+    }
 }

@@ -10,4 +10,12 @@ public class DatoInvalidoException extends RuntimeException {
     public DatoInvalidoException(String mensaje) {
         super(mensaje);
     }
+
+    public DatoInvalidoException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DatoInvalidoException(Throwable cause) {
+        super(cause);
+    }
 }
