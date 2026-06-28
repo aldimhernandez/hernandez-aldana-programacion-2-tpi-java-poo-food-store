@@ -3,6 +3,8 @@ package ui;
 import entities.Categoria;
 import exceptions.DatoInvalidoException;
 import exceptions.EntidadDuplicadaException;
+import exceptions.EntidadInexistenteException;
+import java.util.List;
 import services.CategoriaService;
 
 /**
@@ -21,7 +23,17 @@ public class MenuCategoria extends MenuCRUD {
 
     @Override
     protected void listar() {
-        categoriaService.listar();
+        System.out.println("=== MOSTRAR CATEGORÍAS ===");
+        try {
+            List<Categoria> categorias = categoriaService.listar();
+            for (Categoria categoria : categorias) {
+                System.out.println(categoria);
+            }
+        } catch (EntidadInexistenteException eie) {
+            System.out.println("Advertencia: " + eie.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado. No se pudo completar la operación.");
+        }
     }
 
     @Override
