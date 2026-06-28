@@ -39,7 +39,7 @@ public class CategoriaService extends BaseService<Categoria> {
         descripcion = Validation.validarTextoNoVacio(descripcion, "descripción");
 
         if (existeCategoriaActivaConNombre(nombre)) {
-            throw new EntidadDuplicadaException("Ya existe una categoría activa con ese nombre.");
+            throw new EntidadDuplicadaException("Ya existe otra categoría activa con ese nombre.");
         }
 
         Categoria categoria = new Categoria(nombre, descripcion);
@@ -48,10 +48,36 @@ public class CategoriaService extends BaseService<Categoria> {
         return categoria;
     }
 
-    public Categoria editar() {
-        //TODO: 
-        System.out.println("CategoriaService editar");
-        return null;
+    public Categoria obtenerCategoriaPorId(String id) {
+        // ¿El valor ingresado por el usuario es valido? Si? Continuar No? throw new DatoInvalidoException
+        id = Validation.validarTextoNoVacio(id, "id");
+
+        // ¿El id existe? Si? Continuar No? throw new EntidadInexistenteException
+        Categoria categoriaEncontrada = buscarPorId(categorias, id);
+
+        return categoriaEncontrada;
+    }
+
+    public Categoria editar(Categoria c, String n, String d) {
+        // Si el id no existe o está eliminado, se informa y no se modifica nada.
+        // ¿Esta activa? Si? Continuar No? throw new EntidadInexistenteException
+        if (!c.isActive()) {
+            throw new EntidadInexistenteException("No existe una categoría con el ID: " + c.getId());
+        } // Por el momento le decimos al usuario que la Categoria no existe.
+
+        n = Validation.validarTextoNoVacio(n, "nombre");
+
+        if (existeCategoriaActivaConNombre(n)) {
+            throw new EntidadDuplicadaException("Ya existe otra categoría activa con ese nombre.");
+        }
+
+        d = Validation.validarTextoNoVacio(d, "descripción");
+
+        // e actualiza nombre y/o descripción y se confirma la operación.
+        c.setNombre(n);
+        c.setDescripcion(d);
+
+        return c;
     }
 
     public Categoria eliminar(String id) {
@@ -69,8 +95,8 @@ public class CategoriaService extends BaseService<Categoria> {
         // ¿No tiene productos activos asociados?
         // Si, no tiene.? Continuar No, si tiene.? throw new CategoriaConProductosException
         if (!categoriaEncontrada.isEliminable()) {
-        // TODO: Probar esta validación al implementar crear Productos.
-        // Debe prohibir la eliminación de categorias con productos asociados
+            // TODO: Probar esta validación al implementar crear Productos.
+            // Debe prohibir la eliminación de categorias con productos asociados
             throw new CategoriaConProductosException(
                     "No se puede eliminar una categoria con productos asociados."
             );

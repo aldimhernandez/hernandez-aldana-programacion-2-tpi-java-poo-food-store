@@ -49,7 +49,7 @@ public class MenuCategoria extends MenuCRUD {
         try {
             Categoria categoria = categoriaService.crear(nombre, descripcion);
             System.out.println("Categoría creada correctamente. ID generado: " + categoria.getId());
-        } catch (DatoInvalidoException | EntidadDuplicadaException mce) {
+        } catch (DatoInvalidoException | EntidadInexistenteException | EntidadDuplicadaException mce) {
             System.out.println("Error: " + mce.getMessage());
         } catch (RuntimeException re) {
             System.out.println("Error inesperado. No se pudo completar la operación.");
@@ -58,7 +58,35 @@ public class MenuCategoria extends MenuCRUD {
 
     @Override
     protected void editar() {
-        categoriaService.editar();
+        System.out.println("=== EDITAR CATEGORÍA ===");
+
+        // El sistema permite seleccionar la categoría por id (listando previamente de forma opcional).
+        System.out.println();
+        // TODO: Sí no hay categorias avisar y no solicitar id
+        this.listar();
+
+        System.out.print("Ingrese el ID de la categoria que desea modificar: ");
+        String id = solicitarOpcion();
+
+        try {
+            Categoria categoriaEncontrada = categoriaService.obtenerCategoriaPorId(id);
+
+            System.out.print("Ingrese nombre: ");
+            String nombre = solicitarOpcion();
+
+            System.out.print("Ingrese descripción: ");
+            String descripcion = solicitarOpcion();
+
+            Categoria categoriaEditada = categoriaService.editar(categoriaEncontrada, nombre, descripcion);
+            System.out.println(
+                    "Categoría editada correctamente: "
+                    + categoriaEditada.getNombre().toUpperCase()
+            );
+        } catch (DatoInvalidoException | EntidadInexistenteException | EntidadDuplicadaException mce) {
+            System.out.println("Error: " + mce.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 
     @Override
