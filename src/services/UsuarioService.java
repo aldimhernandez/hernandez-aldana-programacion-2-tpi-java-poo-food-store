@@ -1,32 +1,27 @@
 package services;
 
-import interfaces.Service;
-
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico N° -
  *
  * @author María Aldana Hernández Cohorte Agosto 2025 - Comisión: 5 Matrícula 102505
  */
-public class UsuarioService implements Service {
+public class UsuarioService {
 
     public void listar() {
         //TODO: 
         System.out.println("UsuarioService listar");
     }
 
-    @Override
     public void crear() {
         //TODO: 
         System.out.println("UsuarioService crear");
     }
 
-    @Override
     public void editar() {
         //TODO: 
         System.out.println("UsuarioService editar");
     }
 
-    @Override
     public void eliminar() {
         //TODO: 
         System.out.println("UsuarioService eliminar");
