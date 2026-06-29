@@ -41,10 +41,10 @@ public class MenuCategoria extends MenuCRUD {
         System.out.println("=== CREAR CATEGORÍA ===");
 
         System.out.print("Ingrese nombre: ");
-        String nombre = solicitarOpcion();
+        String nombre = solicitarTexto("nombre");
 
         System.out.print("Ingrese descripción: ");
-        String descripcion = solicitarOpcion();
+        String descripcion = solicitarTexto("descripción");
 
         try {
             Categoria categoria = categoriaService.crear(nombre, descripcion);
@@ -66,16 +66,16 @@ public class MenuCategoria extends MenuCRUD {
         this.listar();
 
         System.out.print("Ingrese el ID de la categoria que desea modificar: ");
-        String id = solicitarOpcion();
+        String id = solicitarTexto("ID de categoria");
 
         try {
             Categoria categoriaEncontrada = categoriaService.obtenerCategoriaPorId(id);
 
             System.out.print("Ingrese nombre: ");
-            String nombre = solicitarOpcion();
+            String nombre = solicitarTexto("nombre");
 
             System.out.print("Ingrese descripción: ");
-            String descripcion = solicitarOpcion();
+            String descripcion = solicitarTexto("descripción");
 
             Categoria categoriaEditada = categoriaService.editar(categoriaEncontrada, nombre, descripcion);
             System.out.println(
@@ -97,7 +97,7 @@ public class MenuCategoria extends MenuCRUD {
         this.listar();
 
         System.out.print("Ingrese el ID de la categoria que desea eliminar: ");
-        String id = solicitarOpcion();
+        String id = solicitarTexto("ID de categoria");
 
         try {
             Categoria categoria = categoriaService.eliminar(id);
