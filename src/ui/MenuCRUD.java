@@ -28,7 +28,7 @@ public abstract class MenuCRUD extends MenuBase {
 
         do {
             estructurarMenu(titulo, opcionesSubMenu, opcionVolverMenuLabel);
-            opcion = solicitarOpcion();
+            opcion = solicitarTexto("opción");
 
             System.out.println();
 
