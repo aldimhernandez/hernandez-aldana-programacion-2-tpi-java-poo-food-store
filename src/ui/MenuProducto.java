@@ -1,7 +1,6 @@
 package ui;
 
 import entities.Categoria;
-import entities.Producto;
 import exceptions.EntidadInexistenteException;
 import java.util.List;
 import services.CategoriaService;
@@ -16,11 +15,13 @@ public class MenuProducto extends MenuCRUD {
 
     private final ProductoService productoService;
     private final CategoriaService categoriaService;
+    private final MenuCategoria menuCategoria;
 
-    public MenuProducto(ProductoService productoService, CategoriaService categoriaService) {
+    public MenuProducto(ProductoService pS, CategoriaService cS, MenuCategoria mC) {
         super("=== MENÚ PRODUCTOS ===");
-        this.productoService = productoService;
-        this.categoriaService = categoriaService;
+        this.productoService = pS;
+        this.categoriaService = cS;
+        this.menuCategoria = mC;
     }
 
     @Override
@@ -55,8 +56,10 @@ public class MenuProducto extends MenuCRUD {
         String dis = solicitarTexto("disponibilidad", opcionesDisponibilidad);
         String disNormalizado = dis.toLowerCase();
 
+        // TODO: Evitar dependencia entre MenuProducto y MenuCategoria.
+        // Listar categorías directamente desde CategoriaService.
         System.out.println();
-        this.listar();
+        menuCategoria.listar();
 
         System.out.print("Ingrese ID de categoría: ");
         String idC = solicitarTexto("ID de categoría");
@@ -68,7 +71,7 @@ public class MenuProducto extends MenuCRUD {
             String idProdCreado = productoService.crear(n, des, p, s, i, disNormalizado, categoriaValida);
             System.out.println("Producto creado exitosamente. ID: " + idProdCreado);
         } catch (EntidadInexistenteException eie) {
-            System.out.println("Error: No existe un Categoria con id: " + idC);
+            System.out.println("Error: No existe una Categoria con id: " + idC);
         } catch (RuntimeException re) {
             System.out.println("Error inesperado: " + re.getMessage());
         }

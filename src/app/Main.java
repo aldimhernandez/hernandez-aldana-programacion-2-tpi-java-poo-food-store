@@ -27,7 +27,7 @@ public class Main {
         PedidoService pedidoService = new PedidoService();
 
         MenuCategoria menuCategoria = new MenuCategoria(categoriaService);
-        MenuProducto menuProducto = new MenuProducto(productoService, categoriaService);
+        MenuProducto menuProducto = new MenuProducto(productoService, categoriaService, menuCategoria);
         MenuUsuario menuUsuario = new MenuUsuario(usuarioService);
         MenuPedido menuPedido = new MenuPedido(pedidoService);
 
