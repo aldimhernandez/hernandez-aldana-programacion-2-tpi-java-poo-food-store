@@ -27,8 +27,51 @@ public abstract class MenuBase {
         System.out.print(accionSolicitadaLabel);
     }
 
-    protected String solicitarOpcion() {
-        return sc.nextLine().trim();
+    protected String solicitarTexto(String nombreCampo) {
+        while (true) {
+            String texto = sc.nextLine().trim();
+
+            if (!texto.isEmpty()) {
+                return texto;
+            }
+
+            System.out.print("Ingrese un/a " + nombreCampo + " válido/a: ");
+        }
+    }
+
+    // Sobrecarga de metodo solicitarTexto
+    protected String solicitarTexto(String nombreCampo, List<String> opcionesValidas) {
+        while (true) {
+            String texto = sc.nextLine().trim();
+
+            if (!texto.isEmpty() && opcionesValidas.contains(texto)) {
+                return texto;
+            }
+
+            System.out.println("Ingrese un/a " + nombreCampo + " válido/a.");
+            System.out.println("Las opciones válidas son: " + opcionesValidas);
+            System.out.print("Ingrese " + nombreCampo + ": ");
+        }
+    }
+
+    protected int solicitarEntero(String nombreCampo) {
+        while (true) {
+            try {
+                return Integer.parseInt(sc.nextLine().trim());
+            } catch (NumberFormatException nfe) {
+                System.out.print("Ingrese un/a " + nombreCampo + " válido/a: ");
+            }
+        }
+    }
+
+    protected double solicitarDecimal(String nombreCampo) {
+        while (true) {
+            try {
+                return Double.parseDouble(sc.nextLine().trim());
+            } catch (NumberFormatException nfe) {
+                System.out.print("Ingrese un/a " + nombreCampo + " válido/a: ");
+            }
+        }
     }
 
     public abstract void start();
