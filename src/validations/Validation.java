@@ -40,4 +40,20 @@ public class Validation {
 
         return valor;
     }
+
+    public static int validarEnteroNoNegativo(int valor, String nombreCampo) {
+        if (valor < 0) {
+            throw new DatoInvalidoException("El campo " + nombreCampo + " no debe ser negativo.");
+        }
+
+        return valor;
+    }
+
+    public static double validarDecimalNoNegativo(double valor, String nombreCampo) {
+        if (valor < 0) {
+            throw new DatoInvalidoException("El campo " + nombreCampo + " no debe ser negativo.");
+        }
+
+        return valor;
+    }
 }
