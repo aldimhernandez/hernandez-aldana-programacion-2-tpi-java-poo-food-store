@@ -22,8 +22,8 @@ public class ProductoService {
         des = Validation.validarTextoNoVacio(des, "descripción");
 
         // Validaciones: precio >= 0 y stock >= 0; nombre no vacío.
-        p = Validation.validarDecimalPositivo(p, "precio");
-        s = Validation.validarEnteroPositivo(s, "stock");
+        p = Validation.validarDecimalNoNegativo(p, "precio");
+        s = Validation.validarEnteroNoNegativo(s, "stock");
         i = Validation.validarTextoNoVacio(i, "ruta al archivo de la imagen");
 
         // estado de disponibilidad (booleano)
@@ -31,7 +31,7 @@ public class ProductoService {
         dis = Validation.validarTextoNoVacio(dis, "disponibilida");
 
         // Convertimos el valor que viene como String a boolean
-        boolean booleanDis = "si".equalsIgnoreCase(dis) ? true : false;
+        boolean booleanDis = "si".equalsIgnoreCase(dis);
 
         // Se agrega el producto a la colección y se informa el id generado.
         Producto producto = new Producto(n, p, des, s, i, booleanDis, c);
