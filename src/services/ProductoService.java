@@ -2,6 +2,9 @@ package services;
 
 import entities.Categoria;
 import entities.Producto;
+import exceptions.EntidadInexistenteException;
+import java.util.ArrayList;
+import java.util.List;
 import validations.Validation;
 
 /**
@@ -10,14 +13,26 @@ import validations.Validation;
  * @author María Aldana Hernández Cohorte Agosto 2025 - Comisión: 5 Matrícula 102505
  */
 public class ProductoService {
-    
-    public void listar() {
-        //TODO: 
-        System.out.println("ProductoService listar");
+
+    List<Producto> productos = new ArrayList<>();
+
+    public List<Producto> listar() {
+        List<Producto> productosActivos = new ArrayList<>();
+
+        for (Producto p : productos) {
+            if (p.isActive()) {
+                productosActivos.add(p);
+            }
+        }
+
+        if (productosActivos.isEmpty()) {
+            throw new EntidadInexistenteException("Aún no existen productos");
+        }
+
+        return productosActivos;
     }
-    
+
     public String crear(String n, String des, double p, int s, String i, String dis, Categoria c) {
-        System.out.println("ProductoService crear");
         n = Validation.validarTextoNoVacio(n, "nombre");
         des = Validation.validarTextoNoVacio(des, "descripción");
 
@@ -35,19 +50,22 @@ public class ProductoService {
 
         // Se agrega el producto a la colección y se informa el id generado.
         Producto producto = new Producto(n, p, des, s, i, booleanDis, c);
+        // Agregamos el producto a la categoria correspondiente
         c.agregarProducto(producto);
-        
+        // Agregamos el producto a la lista de productos
+        productos.add(producto);
+
         // Parseamos el id (Long) a String para poder devolverlo al menú
         String idProductoCreado = producto.getId().toString();
-        
+
         return idProductoCreado;
     }
-    
+
     public void editar() {
         //TODO: 
         System.out.println("ProductoService editar");
     }
-    
+
     public void eliminar() {
         //TODO: 
         System.out.println("ProductoService eliminar");

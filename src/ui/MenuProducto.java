@@ -1,6 +1,7 @@
 package ui;
 
 import entities.Categoria;
+import entities.Producto;
 import exceptions.EntidadInexistenteException;
 import java.util.List;
 import services.CategoriaService;
@@ -27,7 +28,16 @@ public class MenuProducto extends MenuCRUD {
     @Override
     protected void listar() {
         System.out.println("=== MOSTRAR PRODUCTOS ===");
-        productoService.listar();
+        try {
+            List<Producto> productos = productoService.listar();
+            for (Producto producto : productos) {
+                System.out.println(producto);
+            }
+        } catch (EntidadInexistenteException eie) {
+            System.out.println("Advertencia: " + eie.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado. No se pudo completar la operación.");
+        }
     }
 
     @Override
