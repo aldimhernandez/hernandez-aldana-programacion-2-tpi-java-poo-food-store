@@ -91,6 +91,8 @@ public class MenuCategoria extends MenuCRUD {
 
     @Override
     protected void eliminar() {
+        // TODO: Obligatorio
+        // Al seleccionar “Eliminar”, se pide id y confirmación (S/N).
         System.out.println("=== ELIMINAR CATEGORÍA ===");
 
         System.out.println();

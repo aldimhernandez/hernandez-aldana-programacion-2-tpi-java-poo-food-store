@@ -2,6 +2,7 @@ package ui;
 
 import entities.Categoria;
 import entities.Producto;
+import exceptions.DatoInvalidoException;
 import exceptions.EntidadInexistenteException;
 import java.util.List;
 import services.CategoriaService;
@@ -17,6 +18,7 @@ public class MenuProducto extends MenuCRUD {
     private final ProductoService productoService;
     private final CategoriaService categoriaService;
     private final MenuCategoria menuCategoria;
+    List<String> opcionesSiNo = List.of("si", "no");
 
     public MenuProducto(ProductoService pS, CategoriaService cS, MenuCategoria mC) {
         super("=== MENÚ PRODUCTOS ===");
@@ -62,9 +64,8 @@ public class MenuProducto extends MenuCRUD {
         System.out.print("Ingrese imagen: ");
         String i = solicitarTexto("ruta al archivo de la imagen");
 
-        List<String> opcionesDisponibilidad = List.of("si", "no");
         System.out.print("Ingrese disponibilidad (si/no): ");
-        String dis = solicitarTexto("disponibilidad", opcionesDisponibilidad);
+        String dis = solicitarTexto("disponibilidad", opcionesSiNo);
         String disNormalizado = dis.toLowerCase();
 
         // TODO: Evitar dependencia entre MenuProducto y MenuCategoria.
@@ -96,8 +97,33 @@ public class MenuProducto extends MenuCRUD {
 
     @Override
     protected void eliminar() {
+        // Al seleccionar “Eliminar”, se pide id y confirmación (S/N).
         System.out.println("=== ELIMINAR PRODUCTO ===");
-        productoService.eliminar();
-    }
 
+        // Se pide id
+        System.out.print("Ingrese el ID del producto que desea eliminar: ");
+        String id = solicitarTexto("ID de producto");
+
+        // Se pide confirmación (S/N)
+        System.out.println("¿Esta seguro que desea eliminar el producto con ID: " + id);
+        System.out.print("Ingrese si/no: ");
+        String confirmacion = solicitarTexto("confirmación", opcionesSiNo);
+
+        if (confirmacion.equalsIgnoreCase("no")) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
+
+        try {
+            Producto producto = productoService.eliminar(id);
+            System.out.println("Producto eliminado correctamente: " + producto.getNombre().toUpperCase());
+        } catch (DatoInvalidoException die) {
+            System.out.println("Error: " + die.getMessage());
+        } catch (EntidadInexistenteException eie) {
+            System.out.println("Error: No existe un producto con id: " + id);
+        }           
+        catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
+    }
 }
