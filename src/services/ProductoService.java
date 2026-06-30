@@ -12,7 +12,7 @@ import validations.Validation;
  *
  * @author María Aldana Hernández Cohorte Agosto 2025 - Comisión: 5 Matrícula 102505
  */
-public class ProductoService {
+public class ProductoService extends BaseService<Producto> {
 
     List<Producto> productos = new ArrayList<>();
 
@@ -67,8 +67,27 @@ public class ProductoService {
         System.out.println("ProductoService editar");
     }
 
-    public void eliminar() {
-        //TODO: 
-        System.out.println("ProductoService eliminar");
+    public Producto eliminar(String id) {
+
+        // ¿El valor ingresado por el usuario es valido? Si? Continuar No? throw new DatoInvalidoException
+        id = Validation.validarTextoNoVacio(id, "id");
+
+        // ¿El id existe? Si? Continuar No? throw new EntidadInexistenteException
+        Producto productoEncontrado = buscarPorId(productos, id);
+
+        // ¿Esta activa? Si? Continuar No? throw new EntidadInexistenteException
+        if (!productoEncontrado.isActive()) {
+            throw new EntidadInexistenteException("No existe un producto con ID: " + id);
+        } // Por el momento le decimos al usuario que el producto no existe.
+
+        // La operación marca eliminado = true (sin remover físicamente el objeto de la colección).
+        productoEncontrado.setEliminado(true);
+        // No se muestra en listados posteriores --> Lógica en listar
+        
+        // TODO: Probar al implementar pedidos y detalles
+        // Si el producto está referenciado en detalles de pedidos, 
+        // no debe romperse la integridad de los datos (no remover de la colección).
+
+        return productoEncontrado;
     }
 }
