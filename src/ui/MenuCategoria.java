@@ -69,7 +69,7 @@ public class MenuCategoria extends MenuCRUD {
         String id = solicitarTexto("ID de categoria");
 
         try {
-            Categoria categoriaEncontrada = categoriaService.obtenerCategoriaPorId(id);
+            Categoria categoriaEncontrada = categoriaService.obtenerPorId(id);
 
             System.out.print("Ingrese nombre: ");
             String nombre = solicitarTexto("nombre");
