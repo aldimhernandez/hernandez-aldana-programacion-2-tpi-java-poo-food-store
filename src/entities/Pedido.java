@@ -128,7 +128,9 @@ public class Pedido extends Base implements Calculable {
         this.total = totalCalculado;
     }
 
-// El toString() de Pedido debe mostrar al menos: id, fecha, estado, formaPago y total.
+    // Examen parcial 2: El toString() de Pedido debe mostrar al menos:
+    // id, fecha, estado, formaPago y total.
+    // TPI: Se muestra: id, usuario asociado, estado, forma de pago, total y fecha.
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -136,11 +138,12 @@ public class Pedido extends Base implements Calculable {
         String separadorPedido = "-".repeat(80);
 
         sb.append(String.format(
-                "> Pedido #%d | Fecha: %s | Estado: %s | FormaPago: %s%n",
+                "> Pedido #%d | Usuario: %s | Estado: %s | FormaPago: %s | Fecha: %s%n",
                 getId(),
-                fecha,
+                getUsuario(),
                 estado,
-                formaPago
+                formaPago,
+                fecha
         ));
 
         sb.append(String.format("%s%n", separadorPedido));
