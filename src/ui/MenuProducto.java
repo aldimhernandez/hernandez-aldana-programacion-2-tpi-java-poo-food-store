@@ -92,6 +92,7 @@ public class MenuProducto extends MenuCRUD {
 
     @Override
     protected void editar() {
+        // TODO: Si no hay productos, informar antes de pedir id
         System.out.println("=== EDITAR PRODUCTO ===");
 
         // Se selecciona producto por id
