@@ -46,6 +46,8 @@ public class Producto extends Base {
         return nombre;
     }
 
+    // TPI: Cada fila muestra:
+    // id, nombre, precio, stock y categoría asociada (al menos el id o nombre).
     @Override
     public String toString() {
         return String.format(
@@ -58,5 +60,4 @@ public class Producto extends Base {
                 categoria.getNombre()
         );
     }
-
 }
