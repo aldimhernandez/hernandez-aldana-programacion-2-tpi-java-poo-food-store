@@ -113,6 +113,7 @@ public class Usuario extends Base {
         }
     }
 
+    // TPI: Se muestra: id, nombre, apellido, mail, rol (si aplica en el UML).
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -123,9 +124,10 @@ public class Usuario extends Base {
         sb.append(String.format("%s%n", separador));
 
         sb.append(String.format(
-                "USUARIO: %s %s | Mail: %s | Rol: %s%n",
+                "USUARIO: %s %s | ID: %d | Mail: %s | Rol: %s%n",
                 getNombre(),
                 getApellido(),
+                getId(),
                 getMail(),
                 getRol()
         ));

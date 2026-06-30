@@ -1,5 +1,8 @@
 package ui;
 
+import entities.Usuario;
+import exceptions.EntidadInexistenteException;
+import java.util.List;
 import services.UsuarioService;
 
 /**
@@ -10,7 +13,7 @@ import services.UsuarioService;
 public class MenuUsuario extends MenuCRUD {
 
     private final UsuarioService usuarioService;
-    
+
     public MenuUsuario(UsuarioService usuarioService) {
         super("=== MENÚ USUARIOS ===");
         this.usuarioService = usuarioService;
@@ -18,7 +21,17 @@ public class MenuUsuario extends MenuCRUD {
 
     @Override
     protected void listar() {
-        usuarioService.listar();
+        System.out.println("=== MOSTRAR USUARIOS ===");
+        try {
+            List<Usuario> usuarios = usuarioService.listar();
+            for (Usuario usuario : usuarios) {
+                System.out.println(usuarios);
+            }
+        } catch (EntidadInexistenteException eie) {
+            System.out.println("Advertencia: " + eie.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado. No se pudo completar la operación.");
+        }
     }
 
     @Override
