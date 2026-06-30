@@ -1,5 +1,10 @@
 package services;
 
+import entities.Usuario;
+import exceptions.EntidadInexistenteException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico N° -
  *
@@ -7,9 +12,25 @@ package services;
  */
 public class UsuarioService {
 
-    public void listar() {
-        //TODO: 
-        System.out.println("UsuarioService listar");
+    List<Usuario> usuarios = new ArrayList<>();
+
+    public List<Usuario> listar() {
+
+        // Se listan solo usuarios no eliminados.
+        List<Usuario> usuariosActivos = new ArrayList<>();
+
+        for (Usuario u : usuarios) {
+            if (u.isActive()) {
+                usuariosActivos.add(u);
+            }
+        }
+
+        //  Si no hay usuarios, se informa adecuadamente.
+        if (usuariosActivos.isEmpty()) {
+            throw new EntidadInexistenteException("Aún no existen usuarios");
+        }
+
+        return usuariosActivos;
     }
 
     public void crear() {
