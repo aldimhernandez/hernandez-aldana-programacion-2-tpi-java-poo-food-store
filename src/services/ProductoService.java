@@ -16,6 +16,11 @@ public class ProductoService extends BaseService<Producto> {
 
     List<Producto> productos = new ArrayList<>();
 
+    @Override
+    protected List<Producto> getLista() {
+        return productos;
+    }
+
     public List<Producto> listar() {
         // Se muestran solo productos no eliminados.
         List<Producto> productosActivos = new ArrayList<>();
@@ -44,7 +49,7 @@ public class ProductoService extends BaseService<Producto> {
 
         // estado de disponibilidad (booleano)
         // viene como String hay que convertirlo a boolean
-        dis = Validation.validarTextoNoVacio(dis, "disponibilida");
+        dis = Validation.validarTextoNoVacio(dis, "disponibilidad");
 
         // Convertimos el valor que viene como String a boolean
         boolean booleanDis = "si".equalsIgnoreCase(dis);
@@ -62,9 +67,61 @@ public class ProductoService extends BaseService<Producto> {
         return idProductoCreado;
     }
 
-    public void editar() {
-        //TODO: 
-        System.out.println("ProductoService editar");
+    public Producto editar(
+            String id,
+            String n,
+            String des,
+            Double p,
+            Integer s,
+            String i,
+            String dis,
+            Categoria c
+    ) {
+        // Se selecciona producto por id.
+        Producto productoEncontrado = obtenerPorId(id);
+
+        // Se permite actualizar uno o más campos (manteniendo los anteriores si el usuario no modifica).
+        // Nombre
+        if (n != null) {
+            productoEncontrado.setNombre(n);
+        }
+
+        // Descripcion
+        if (des != null) {
+            productoEncontrado.setDescripcion(des);
+        }
+
+        // Validaciones: precio >= 0 y stock >= 0.
+        // Precio
+        if (p != null) {
+            productoEncontrado.setPrecio(p);
+        }
+
+        // Stock
+        if (s != null) {
+            productoEncontrado.setStock(s);
+        }
+
+        // Imagen
+        if (i != null) {
+            productoEncontrado.setImagen(i);
+        }
+
+        // Disponibilidad se solicita obligatoriamente
+        // estado de disponibilidad (booleano)
+        // viene como String hay que convertirlo a boolean
+        dis = Validation.validarTextoNoVacio(dis, "disponibilidad");
+
+        // Convertimos el valor que viene como String a boolean
+        boolean booleanDis = "si".equalsIgnoreCase(dis);
+        productoEncontrado.setDisponible(booleanDis);
+
+        // Categoria
+        if (c != null) {
+            productoEncontrado.setCategoria(c);
+        }
+
+        return productoEncontrado;
     }
 
     public Producto eliminar(String id) {
@@ -83,11 +140,10 @@ public class ProductoService extends BaseService<Producto> {
         // La operación marca eliminado = true (sin remover físicamente el objeto de la colección).
         productoEncontrado.setEliminado(true);
         // No se muestra en listados posteriores --> Lógica en listar
-        
+
         // TODO: Probar al implementar pedidos y detalles
         // Si el producto está referenciado en detalles de pedidos, 
         // no debe romperse la integridad de los datos (no remover de la colección).
-
         return productoEncontrado;
     }
 }
