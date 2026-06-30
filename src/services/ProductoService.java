@@ -17,6 +17,7 @@ public class ProductoService {
     List<Producto> productos = new ArrayList<>();
 
     public List<Producto> listar() {
+        // Se muestran solo productos no eliminados.
         List<Producto> productosActivos = new ArrayList<>();
 
         for (Producto p : productos) {

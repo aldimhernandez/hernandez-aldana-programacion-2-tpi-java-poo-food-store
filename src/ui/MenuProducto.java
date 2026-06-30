@@ -27,6 +27,7 @@ public class MenuProducto extends MenuCRUD {
 
     @Override
     protected void listar() {
+        // TODO: Se permite listar por categoría (opcional) o listado general.
         System.out.println("=== MOSTRAR PRODUCTOS ===");
         try {
             List<Producto> productos = productoService.listar();
