@@ -3,6 +3,7 @@ package ui;
 import entities.Categoria;
 import entities.Producto;
 import exceptions.DatoInvalidoException;
+import exceptions.EntidadDuplicadaException;
 import exceptions.EntidadInexistenteException;
 import java.util.List;
 import services.CategoriaService;
@@ -78,7 +79,7 @@ public class MenuProducto extends MenuCRUD {
 
         try {
             // Si la categoría no existe o está eliminada, no se permite continuar.
-            Categoria categoriaValida = categoriaService.obtenerCategoriaPorId(idC);
+            Categoria categoriaValida = categoriaService.obtenerPorId(idC);
             // Creamos el producto y guardamos el id
             String idProdCreado = productoService.crear(n, des, p, s, i, disNormalizado, categoriaValida);
             System.out.println("Producto creado exitosamente. ID: " + idProdCreado);
@@ -92,7 +93,75 @@ public class MenuProducto extends MenuCRUD {
     @Override
     protected void editar() {
         System.out.println("=== EDITAR PRODUCTO ===");
-        productoService.editar();
+
+        // Se selecciona producto por id
+        System.out.print("Ingrese el ID del producto que desea modificar: ");
+        String id = solicitarTexto("ID de producto");
+
+        try {
+            // Si el id no existe o está eliminado, se informa y se cancela.
+            Producto pE = productoService.obtenerPorId(id);
+
+            System.out.println("Producto encontrado:");
+            System.out.println(pE);
+
+            String nuevoNombre = solicitarTextoOpcional(
+                    "Nuevo nombre [actual: " + pE.getNombre() + "]"
+            );
+
+            String nuevaDescripcion = solicitarTextoOpcional(
+                    "Nueva descripción [actual: " + pE.getDescripcion() + "]"
+            );
+
+            Double nuevoPrecio = solicitarDecimalOpcional(
+                    "Nuevo precio [actual: " + pE.getPrecio() + "]"
+            );
+
+            Integer nuevoStock = solicitarEnteroOpcional(
+                    "Nuevo stock [actual: " + pE.getStock() + "]"
+            );
+
+            String nuevaImagen = solicitarTextoOpcional(
+                    "Nueva ruta al archivo de la imagen [actual: " + pE.getDescripcion() + "]"
+            );
+
+            System.out.println("Ingrese disponibilidad (si/no): ");
+            String dis = solicitarTexto("disponibilidad", opcionesSiNo);
+            String disNormalizado = dis.toLowerCase();
+
+            // TODO: Evitar dependencia entre MenuProducto y MenuCategoria.
+            // Listar categorías directamente desde CategoriaService.
+            System.out.println();
+            menuCategoria.listar();
+
+            String nuevaCategoria = solicitarTextoOpcional(
+                    "Nueva categoria [actual: " + pE.getCategoria().getId() + "]"
+            );
+
+            Categoria categoriaValida = null;
+            if (nuevaCategoria != null) {
+                categoriaValida = categoriaService.obtenerPorId(nuevaCategoria);
+            }
+
+            Producto productoEditado = productoService.editar(
+                    id,
+                    nuevoNombre,
+                    nuevaDescripcion,
+                    nuevoPrecio,
+                    nuevoStock,
+                    nuevaImagen,
+                    disNormalizado,
+                    categoriaValida
+            );
+            System.out.println("Producto actualizado correctamente:");
+            System.out.println(productoEditado);
+        } catch (DatoInvalidoException die) {
+            System.out.println("Error: " + die.getMessage());
+        } catch (EntidadInexistenteException eie) {
+            System.out.println("Error: No existe un producto con id: " + id);
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 
     @Override
@@ -121,8 +190,7 @@ public class MenuProducto extends MenuCRUD {
             System.out.println("Error: " + die.getMessage());
         } catch (EntidadInexistenteException eie) {
             System.out.println("Error: No existe un producto con id: " + id);
-        }           
-        catch (RuntimeException re) {
+        } catch (RuntimeException re) {
             System.out.println("Error inesperado: " + re.getMessage());
         }
     }
