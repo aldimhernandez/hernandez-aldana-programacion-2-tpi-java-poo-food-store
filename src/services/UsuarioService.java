@@ -12,9 +12,14 @@ public class UsuarioService {
         System.out.println("UsuarioService listar");
     }
 
-    public void crear() {
-        //TODO: 
+    public String crear(String nombre, String apellido, String mail, String celular) {
+        String idGenerado = null;
+        //TODO:
+        // Validación de mail no vacío y formato básico (opcional).
+        // El mail debe ser único:si ya existe, se informa el error y se solicita otro.
+        // Se persiste el usuario y se informa el id generado.
         System.out.println("UsuarioService crear");
+        return idGenerado;
     }
 
     public void editar() {

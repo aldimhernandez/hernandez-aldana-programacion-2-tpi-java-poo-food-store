@@ -23,7 +23,8 @@ public class MenuUsuario extends MenuCRUD {
 
     @Override
     protected void crear() {
-        usuarioService.crear();
+        //  El menú solicita: nombre, apellido, mail, celular (según UML).
+        // usuarioService.crear(nombre, apellido, mail, celular);
     }
 
     @Override
