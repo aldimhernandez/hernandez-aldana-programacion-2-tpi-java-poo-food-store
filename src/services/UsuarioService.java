@@ -6,15 +6,21 @@ import exceptions.EntidadInexistenteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import validations.Validation;
 
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico N° -
  *
  * @author María Aldana Hernández Cohorte Agosto 2025 - Comisión: 5 Matrícula 102505
  */
-public class UsuarioService {
+public class UsuarioService extends BaseService<Usuario> {
 
     List<Usuario> usuarios = new ArrayList<>();
+
+    @Override
+    protected List<Usuario> getLista() {
+        return usuarios;
+    }
 
     public List<Usuario> listar() {
 
@@ -50,9 +56,33 @@ public class UsuarioService {
         return idGenerado;
     }
 
-    public void editar() {
-        //TODO: 
-        System.out.println("UsuarioService editar");
+    public Usuario editar(String id, String nombre, String apellido, String mail, String celular) {
+        Usuario usuarioEncontrado = obtenerPorId(id);
+
+        if (nombre != null) {
+            usuarioEncontrado.setNombre(nombre);
+        }
+
+        if (apellido != null) {
+            usuarioEncontrado.setApellido(apellido);
+        }
+
+        if (mail != null) {
+            mail = Validation.validarMail(mail, "mail");
+
+            if (!usuarioEncontrado.getMail().equalsIgnoreCase(mail)
+                    && existeMailEnOtroUsuario(mail, usuarioEncontrado.getId())) {
+                throw new EntidadDuplicadaException("Ya existe otro usuario con el mail: " + mail);
+            }
+
+            usuarioEncontrado.setMail(mail);
+        }
+
+        if (celular != null) {
+            usuarioEncontrado.setCelular(celular);
+        }
+
+        return usuarioEncontrado;
     }
 
     public void eliminar() {
@@ -70,6 +100,24 @@ public class UsuarioService {
         while (it.hasNext() && !existe) {
             Usuario usuario = it.next();
             if (usuario.getMail().equalsIgnoreCase(mailNormalizado)) {
+                existe = true;
+            }
+        }
+
+        return existe;
+    }
+
+    private boolean existeMailEnOtroUsuario(String mail, Long idUsuarioActual) {
+        boolean existe = false;
+        String mailNormalizado = mail.trim();
+
+        Iterator<Usuario> it = this.usuarios.iterator();
+
+        while (it.hasNext() && !existe) {
+            Usuario usuario = it.next();
+
+            if (!usuario.getId().equals(idUsuarioActual)
+                    && usuario.getMail().equalsIgnoreCase(mailNormalizado)) {
                 existe = true;
             }
         }
