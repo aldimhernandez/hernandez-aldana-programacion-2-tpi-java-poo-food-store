@@ -2,6 +2,7 @@ package services;
 
 import entities.Base;
 import exceptions.EntidadInexistenteException;
+import java.util.Iterator;
 import java.util.List;
 import validations.Validation;
 
@@ -15,12 +16,24 @@ public abstract class BaseService<T extends Base> {
     protected abstract List<T> getLista();
 
     protected T buscarPorId(List<T> lista, String id) {
-        for (T entidad : lista) {
-            if (entidad.tieneID(id)) {
-                return entidad;
+        T entidadEncontrada = null;
+        String idNormalizado = id.trim();
+
+        Iterator<T> it = lista.iterator();
+
+        while (it.hasNext() && entidadEncontrada == null) {
+            T entidad = it.next();
+
+            if (entidad.tieneID(idNormalizado)) {
+                entidadEncontrada = entidad;
             }
         }
-        throw new EntidadInexistenteException("No existe una entidad con el ID ingresado.");
+
+        if (entidadEncontrada == null) {
+            throw new EntidadInexistenteException("No existe una entidad con el ID ingresado.");
+        }
+
+        return entidadEncontrada;
     }
 
     public T obtenerPorId(String id) {
