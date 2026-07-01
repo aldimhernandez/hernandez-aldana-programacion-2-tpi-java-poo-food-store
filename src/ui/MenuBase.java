@@ -67,6 +67,22 @@ public abstract class MenuBase {
         return valor;
     }
 
+    protected String solicitarEmail() {
+        while (true) {
+            String email = sc.nextLine().trim();
+
+            if (!email.isEmpty()
+                    && email.contains("@")
+                    && email.contains(".")
+                    && !email.startsWith("@")
+                    && !email.endsWith("@")) {
+                return email;
+            }
+
+            System.out.print("Ingrese un mail válido: ");
+        }
+    }
+
     protected int solicitarEntero(String nombreCampo) {
         while (true) {
             String valor = sc.nextLine().trim();

@@ -3,6 +3,7 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 import enums.Rol;
+import validations.Validation;
 
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico N° -
@@ -23,13 +24,17 @@ public class Usuario extends Base {
 
     public Usuario(String nombre, String apellido, String mail, String celular, String contraseña, Rol rol) {
         super(usuarioIdCounter++);
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.mail = mail;
-        this.celular = celular;
+        this.setNombre(nombre);
+        this.setApellido(apellido);
+        this.setMail(mail);
+        this.setCelular(celular);
         this.contrasenia = contraseña;
         this.rol = rol;
         this.pedidos = new ArrayList<>();
+    }
+
+    public Usuario(String nombre, String apellido, String mail, String celular) {
+        this(nombre, apellido, mail, celular, "", Rol.USUARIO);
     }
 
     public String getNombre() {
@@ -37,7 +42,7 @@ public class Usuario extends Base {
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = Validation.validarTextoNoVacio(nombre, "nombre");
     }
 
     public String getApellido() {
@@ -45,7 +50,7 @@ public class Usuario extends Base {
     }
 
     public void setApellido(String apellido) {
-        this.apellido = apellido;
+        this.apellido = Validation.validarTextoNoVacio(apellido, "apellido");
     }
 
     public String getMail() {
@@ -53,7 +58,7 @@ public class Usuario extends Base {
     }
 
     public void setMail(String mail) {
-        this.mail = mail;
+        this.mail = Validation.validarMail(mail, "mail");
     }
 
     public String getCelular() {
@@ -61,7 +66,7 @@ public class Usuario extends Base {
     }
 
     public void setCelular(String celular) {
-        this.celular = celular;
+        this.celular = Validation.validarTextoNoVacio(celular, "celular");
     }
 
     public String getContraseña() {
@@ -119,21 +124,22 @@ public class Usuario extends Base {
         StringBuilder sb = new StringBuilder();
 
         String separador = "=".repeat(90);
-        double totalAcumulado = 0.0;
+        // double totalAcumulado = 0.0;
 
         sb.append(String.format("%s%n", separador));
 
         sb.append(String.format(
-                "USUARIO: %s %s | ID: %d | Mail: %s | Rol: %s%n",
+                "ID: %d | USUARIO: %s %s | Mail: %s | Rol: %s%n",
+                getId(),
                 getNombre(),
                 getApellido(),
-                getId(),
                 getMail(),
                 getRol()
         ));
 
         sb.append(String.format("%s%n", separador));
 
+        /* No es requerido en el TPI
         for (Pedido pedido : pedidos) {
             sb.append(String.format("%s%n", pedido));
             totalAcumulado += pedido.getTotal();
@@ -141,7 +147,7 @@ public class Usuario extends Base {
 
         sb.append(String.format("TOTAL ACUMULADO del usuario: $%.2f%n", totalAcumulado));
         sb.append(String.format("%s%n", separador));
-
+         */
         return sb.toString();
     }
 }

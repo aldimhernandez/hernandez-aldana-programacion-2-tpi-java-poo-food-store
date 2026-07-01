@@ -56,4 +56,17 @@ public class Validation {
 
         return valor;
     }
+
+    public static String validarMail(String valor, String nombreCampo) {
+        String mail = validarTextoNoVacio(valor, nombreCampo).toLowerCase();
+
+        if (!mail.contains("@")
+                || !mail.contains(".")
+                || mail.startsWith("@")
+                || mail.endsWith("@")) {
+            throw new DatoInvalidoException("El campo " + nombreCampo + " debe ser un mail válido.");
+        }
+
+        return mail;
+    }
 }
