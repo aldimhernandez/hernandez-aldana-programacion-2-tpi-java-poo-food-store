@@ -82,7 +82,75 @@ public class MenuUsuario extends MenuCRUD {
     @Override
     protected void editar() {
         System.out.println("=== EDITAR USUARIO ===");
-        usuarioService.editar();
+
+        // Selección por id.
+        System.out.print("Ingrese el ID del usuario que desea modificar: ");
+        String id = solicitarTexto("ID de usuario");
+
+        try {
+            // Si el id no existe o está eliminado, se informa
+            Usuario usuarioEncontrado = usuarioService.obtenerPorId(id);
+
+            System.out.println("Usuario encontrado:");
+            System.out.println(usuarioEncontrado);
+
+            String nuevoNombre = solicitarTextoOpcional(
+                    "Nuevo nombre [actual: " + usuarioEncontrado.getNombre() + "]"
+            );
+
+            String nuevoApellido = solicitarTextoOpcional(
+                    "Nuevo apellido [actual: " + usuarioEncontrado.getApellido() + "]"
+            );
+
+            String nuevoCelular = solicitarTextoOpcional(
+                    "Nuevo celular [actual: " + usuarioEncontrado.getCelular() + "]"
+            );
+
+            String nuevoMail = solicitarTextoOpcional(
+                    "Nuevo mail [actual: " + usuarioEncontrado.getMail() + "]"
+            );
+
+            boolean usuarioValido = false;
+
+            while (!usuarioValido) {
+                try {
+                    if (nuevoMail != null) {
+                        String nuevoMailConfirmado;
+                        do {
+                            System.out.println("Reingrese el mail para confirmar: ");
+                            nuevoMailConfirmado = solicitarEmail();
+                        } while (!nuevoMail.equalsIgnoreCase(nuevoMailConfirmado));
+                    }
+
+                    Usuario usuarioEditado = usuarioService.editar(
+                            id,
+                            nuevoNombre,
+                            nuevoApellido,
+                            nuevoMail,
+                            nuevoCelular
+                    );
+
+                    // Se confirma actualización al finalizar.
+                    System.out.println("Usuario editado correctamente.");
+                    System.out.println(usuarioEditado);
+
+                    usuarioValido = true;
+
+                    // El mail debe ser único: si ya existe, se informa el error y se solicita otro.
+                } catch (EntidadDuplicadaException ede) {
+                    System.out.println("Error: " + ede.getMessage());
+                    System.out.println("Ingrese otro mail.");
+                }
+            }
+
+        } catch (DatoInvalidoException die) {
+            System.out.println("Error: " + die.getMessage());
+        } catch (EntidadInexistenteException eie) {
+            // Si el id no existe o está eliminado, se informa
+            System.out.println("Error: No existe un usuario activo con id: " + id);
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 
     @Override
