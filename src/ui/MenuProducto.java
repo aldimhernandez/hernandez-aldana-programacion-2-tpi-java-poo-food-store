@@ -3,7 +3,6 @@ package ui;
 import entities.Categoria;
 import entities.Producto;
 import exceptions.DatoInvalidoException;
-import exceptions.EntidadDuplicadaException;
 import exceptions.EntidadInexistenteException;
 import java.util.List;
 import services.CategoriaService;

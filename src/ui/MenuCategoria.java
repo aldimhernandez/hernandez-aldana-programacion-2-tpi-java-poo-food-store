@@ -15,6 +15,7 @@ import services.CategoriaService;
 public class MenuCategoria extends MenuCRUD {
 
     private final CategoriaService categoriaService;
+    List<String> opcionesSiNo = List.of("si", "no");
 
     public MenuCategoria(CategoriaService categoriaService) {
         super("=== MENÚ CATEGORÍAS ===");
@@ -91,15 +92,25 @@ public class MenuCategoria extends MenuCRUD {
 
     @Override
     protected void eliminar() {
-        // TODO: Obligatorio
         // Al seleccionar “Eliminar”, se pide id y confirmación (S/N).
         System.out.println("=== ELIMINAR CATEGORÍA ===");
 
         System.out.println();
         this.listar();
 
+        // Se pide id
         System.out.print("Ingrese el ID de la categoria que desea eliminar: ");
         String id = solicitarTexto("ID de categoria");
+
+        // Se pide confirmación (S/N)
+        System.out.println("¿Esta seguro que desea eliminar la categoría con ID: " + id);
+        System.out.print("Ingrese si/no: ");
+        String confirmacion = solicitarTexto("confirmación", opcionesSiNo);
+
+        if (confirmacion.equalsIgnoreCase("no")) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
 
         try {
             Categoria categoria = categoriaService.eliminar(id);
