@@ -16,6 +16,7 @@ public class PedidoService {
 
     public List<Pedido> listar() {
         // Se listan solo pedidos no eliminados.
+        // Usuarios eliminados: Pedidos existentes del usuario deben seguir pudiendo consultarse (historial).
         List<Pedido> pedidosActivos = new ArrayList<>();
 
         for (Pedido p : pedidos) {
@@ -33,6 +34,7 @@ public class PedidoService {
 
     public void crear() {
         //TODO: 
+        // Usuarios eliminados: No aparece en listados ni puede seleccionarse al crear pedidos.
         System.out.println("PedidoService crear");
     }
 
