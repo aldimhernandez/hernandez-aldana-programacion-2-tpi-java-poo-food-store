@@ -1,6 +1,8 @@
 package ui;
 
 import entities.Usuario;
+import exceptions.DatoInvalidoException;
+import exceptions.EntidadDuplicadaException;
 import exceptions.EntidadInexistenteException;
 import java.util.List;
 import services.UsuarioService;
@@ -25,7 +27,7 @@ public class MenuUsuario extends MenuCRUD {
         try {
             List<Usuario> usuarios = usuarioService.listar();
             for (Usuario usuario : usuarios) {
-                System.out.println(usuarios);
+                System.out.println(usuario);
             }
         } catch (EntidadInexistenteException eie) {
             System.out.println("Advertencia: " + eie.getMessage());
@@ -36,17 +38,56 @@ public class MenuUsuario extends MenuCRUD {
 
     @Override
     protected void crear() {
-        //  El menú solicita: nombre, apellido, mail, celular (según UML).
-        // usuarioService.crear(nombre, apellido, mail, celular);
+        System.out.println("=== CREAR USUARIO ===");
+
+        // El menú solicita: nombre, apellido, mail, celular (según UML).
+        try {
+            System.out.print("Nombre: ");
+            String nombre = solicitarTexto("nombre");
+
+            System.out.print("Apellido: ");
+            String apellido = solicitarTexto("apellido");
+
+            System.out.print("Celular: ");
+            String celular = solicitarTexto("celular");
+
+            boolean usuarioCreado = false;
+
+            while (!usuarioCreado) {
+                try {
+                    // Validación de mail no vacío y formato básico (opcional).
+                    System.out.print("Mail: ");
+                    String mail = solicitarEmail();
+
+                    String usuarioID = usuarioService.crear(nombre, apellido, mail, celular);
+
+                    System.out.println("Usuario creado correctamente con id: " + usuarioID);
+
+                    usuarioCreado = true;
+
+                    // El mail debe ser único: si ya existe, se informa el error y se solicita otro.
+                } catch (EntidadDuplicadaException ede) {
+                    System.out.println("Error: " + ede.getMessage());
+                    System.out.println("Ingrese otro mail.");
+                }
+            }
+
+        } catch (DatoInvalidoException die) {
+            System.out.println("Error: " + die.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 
     @Override
     protected void editar() {
+        System.out.println("=== EDITAR USUARIO ===");
         usuarioService.editar();
     }
 
     @Override
     protected void eliminar() {
+        System.out.println("=== ELIMINAR USUARIO ===");
         usuarioService.eliminar();
     }
 
