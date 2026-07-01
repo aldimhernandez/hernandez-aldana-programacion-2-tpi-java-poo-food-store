@@ -25,6 +25,7 @@ public class UsuarioService extends BaseService<Usuario> {
     public List<Usuario> listar() {
 
         // Se listan solo usuarios no eliminados.
+        // Eliminados: No aparece en listados ni puede seleccionarse al crear pedidos.
         List<Usuario> usuariosActivos = new ArrayList<>();
 
         for (Usuario u : usuarios) {
@@ -85,9 +86,13 @@ public class UsuarioService extends BaseService<Usuario> {
         return usuarioEncontrado;
     }
 
-    public void eliminar() {
-        //TODO: 
-        System.out.println("UsuarioService eliminar");
+    public Usuario eliminar(String id) {
+        Usuario usuarioEncontrado = obtenerPorId(id);
+
+        // Se marca eliminado=true.
+        usuarioEncontrado.setEliminado(true);
+
+        return usuarioEncontrado;
     }
 
     // Buscador de identificador unico en colecciones recomendado por la catedra

@@ -15,6 +15,7 @@ import services.UsuarioService;
 public class MenuUsuario extends MenuCRUD {
 
     private final UsuarioService usuarioService;
+    private final List<String> opcionesSiNo = List.of("si", "no");
 
     public MenuUsuario(UsuarioService usuarioService) {
         super("=== MENÚ USUARIOS ===");
@@ -156,7 +157,32 @@ public class MenuUsuario extends MenuCRUD {
     @Override
     protected void eliminar() {
         System.out.println("=== ELIMINAR USUARIO ===");
-        usuarioService.eliminar();
-    }
 
+        try {
+            this.listar();
+
+            // Se pide id y confirmación.
+            System.out.print("Ingrese el ID del usuario que desea eliminar: ");
+            String id = solicitarTexto("ID de usuario");
+
+            System.out.println("¿Está seguro que desea eliminar el usuario con ID: " + id + "?");
+            System.out.print("Ingrese si/no: ");
+            String confirmacion = solicitarTexto("confirmación", opcionesSiNo);
+
+            if (confirmacion.equalsIgnoreCase("no")) {
+                System.out.println("Operación cancelada.");
+                return;
+            }
+
+            Usuario usuarioEliminado = usuarioService.eliminar(id);
+
+            System.out.println("Usuario eliminado correctamente:");
+            System.out.println(usuarioEliminado);
+
+        } catch (DatoInvalidoException | EntidadInexistenteException die) {
+            System.out.println("Error: " + die.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
+    }
 }
