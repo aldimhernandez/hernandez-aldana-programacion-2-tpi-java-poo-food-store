@@ -45,7 +45,7 @@ import java.util.List;
 
             do {
                 estructurarMenu(tituloMenu, opcionesMenu, opcionSalirLabel);
-                opcion = solicitarOpcion();
+                opcion = solicitarTexto("opción");
 
                 System.out.println();
 

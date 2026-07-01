@@ -1,18 +1,34 @@
-
 package services;
 
+import entities.Pedido;
+import exceptions.EntidadInexistenteException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * UTN - TUPAD - PROGRAMACIÓN 2
- * Trabajo Práctico N° -
- * @author María Aldana Hernández
- * Cohorte Agosto 2025 - Comisión: 5
- * Matrícula 102505
+ * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico N° -
+ *
+ * @author María Aldana Hernández Cohorte Agosto 2025 - Comisión: 5 Matrícula 102505
  */
 public class PedidoService {
 
-    public void listar() {
-        //TODO: 
-        System.out.println("PedidoService listar");
+    List<Pedido> pedidos = new ArrayList<>();
+
+    public List<Pedido> listar() {
+        // Se listan solo pedidos no eliminados.
+        List<Pedido> pedidosActivos = new ArrayList<>();
+
+        for (Pedido p : pedidos) {
+            if (p.isActive()) {
+                pedidosActivos.add(p);
+            }
+        }
+
+        if (pedidosActivos.isEmpty()) {
+            throw new EntidadInexistenteException("Aún no existen pedidos");
+        }
+
+        return pedidosActivos;
     }
 
     public void crear() {

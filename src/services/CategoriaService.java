@@ -17,6 +17,11 @@ public class CategoriaService extends BaseService<Categoria> {
 
     private final List<Categoria> categorias = new ArrayList<>();
 
+    @Override
+    protected List<Categoria> getLista() {
+        return categorias;
+    }
+
     public List<Categoria> listar() {
 
         List<Categoria> categoriasActivas = new ArrayList<>();
@@ -46,16 +51,6 @@ public class CategoriaService extends BaseService<Categoria> {
         categorias.add(categoria);
 
         return categoria;
-    }
-
-    public Categoria obtenerCategoriaPorId(String id) {
-        // ¿El valor ingresado por el usuario es valido? Si? Continuar No? throw new DatoInvalidoException
-        id = Validation.validarTextoNoVacio(id, "id");
-
-        // ¿El id existe? Si? Continuar No? throw new EntidadInexistenteException
-        Categoria categoriaEncontrada = buscarPorId(categorias, id);
-
-        return categoriaEncontrada;
     }
 
     public Categoria editar(Categoria c, String n, String d) {

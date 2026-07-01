@@ -15,6 +15,7 @@ import services.CategoriaService;
 public class MenuCategoria extends MenuCRUD {
 
     private final CategoriaService categoriaService;
+    List<String> opcionesSiNo = List.of("si", "no");
 
     public MenuCategoria(CategoriaService categoriaService) {
         super("=== MENÚ CATEGORÍAS ===");
@@ -41,10 +42,10 @@ public class MenuCategoria extends MenuCRUD {
         System.out.println("=== CREAR CATEGORÍA ===");
 
         System.out.print("Ingrese nombre: ");
-        String nombre = solicitarOpcion();
+        String nombre = solicitarTexto("nombre");
 
         System.out.print("Ingrese descripción: ");
-        String descripcion = solicitarOpcion();
+        String descripcion = solicitarTexto("descripción");
 
         try {
             Categoria categoria = categoriaService.crear(nombre, descripcion);
@@ -66,16 +67,16 @@ public class MenuCategoria extends MenuCRUD {
         this.listar();
 
         System.out.print("Ingrese el ID de la categoria que desea modificar: ");
-        String id = solicitarOpcion();
+        String id = solicitarTexto("ID de categoria");
 
         try {
-            Categoria categoriaEncontrada = categoriaService.obtenerCategoriaPorId(id);
+            Categoria categoriaEncontrada = categoriaService.obtenerPorId(id);
 
             System.out.print("Ingrese nombre: ");
-            String nombre = solicitarOpcion();
+            String nombre = solicitarTexto("nombre");
 
             System.out.print("Ingrese descripción: ");
-            String descripcion = solicitarOpcion();
+            String descripcion = solicitarTexto("descripción");
 
             Categoria categoriaEditada = categoriaService.editar(categoriaEncontrada, nombre, descripcion);
             System.out.println(
@@ -91,13 +92,25 @@ public class MenuCategoria extends MenuCRUD {
 
     @Override
     protected void eliminar() {
+        // Al seleccionar “Eliminar”, se pide id y confirmación (S/N).
         System.out.println("=== ELIMINAR CATEGORÍA ===");
 
         System.out.println();
         this.listar();
 
+        // Se pide id
         System.out.print("Ingrese el ID de la categoria que desea eliminar: ");
-        String id = solicitarOpcion();
+        String id = solicitarTexto("ID de categoria");
+
+        // Se pide confirmación (S/N)
+        System.out.println("¿Esta seguro que desea eliminar la categoría con ID: " + id);
+        System.out.print("Ingrese si/no: ");
+        String confirmacion = solicitarTexto("confirmación", opcionesSiNo);
+
+        if (confirmacion.equalsIgnoreCase("no")) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
 
         try {
             Categoria categoria = categoriaService.eliminar(id);
