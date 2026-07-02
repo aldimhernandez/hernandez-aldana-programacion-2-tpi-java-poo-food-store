@@ -29,7 +29,11 @@ public class Main {
         MenuCategoria menuCategoria = new MenuCategoria(categoriaService);
         MenuProducto menuProducto = new MenuProducto(productoService, categoriaService, menuCategoria);
         MenuUsuario menuUsuario = new MenuUsuario(usuarioService);
-        MenuPedido menuPedido = new MenuPedido(pedidoService);
+        MenuPedido menuPedido = new MenuPedido(
+                pedidoService,
+                usuarioService,
+                productoService
+        );
 
         MenuPrincipal menuPrincipal = new MenuPrincipal(
                 menuCategoria,

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import enums.Estado;
 import enums.FormaPago;
+import exceptions.DatoInvalidoException;
 
 /**
  * UTN - TUPAD - PROGRAMACIÓN 2 Trabajo Práctico N° -
@@ -82,11 +83,37 @@ public class Pedido extends Base implements Calculable {
         }
     }
 
-    /*  addDetallePedido(int, Double, Producto): 
+    /*  addDetallePedido(int, Producto): 
         crea un nuevo DetallePedido, lo agrega a la lista y recalcula el total. */
     public void addDetallePedido(int cantidad, Producto p) {
+        cantidad = validations.Validation.validarEnteroPositivo(cantidad, "cantidad");
+
+        if (p == null) {
+            throw new DatoInvalidoException("El producto no puede ser nulo.");
+        }
+
+        if (!p.isActive()) {
+            throw new DatoInvalidoException("El producto seleccionado no está activo.");
+        }
+
+        if (!p.isDisponible()) {
+            throw new DatoInvalidoException("El producto seleccionado no está disponible.");
+        }
+
+        if (p.getStock() < cantidad) {
+            throw new DatoInvalidoException(
+                    "Stock insuficiente para el producto: " + p.getNombre()
+                    + ". Stock disponible: " + p.getStock()
+            );
+        }
+
+        if (findDetallePedidoByProducto(p) != null) {
+            throw new DatoInvalidoException("El producto ya fue agregado al pedido.");
+        }
+
         DetallePedido nuevoDetalle = new DetallePedido(detalleIdCounter++, cantidad, p);
         detalles.add(nuevoDetalle);
+
         this.calcularTotal();
     }
 

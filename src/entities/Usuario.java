@@ -118,6 +118,12 @@ public class Usuario extends Base {
         }
     }
 
+    public void quitarPedido(Pedido pedido) {
+        if (pedido != null) {
+            pedidos.remove(pedido);
+        }
+    }
+
     // TPI: Se muestra: id, nombre, apellido, mail, rol (si aplica en el UML).
     @Override
     public String toString() {
