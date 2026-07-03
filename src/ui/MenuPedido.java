@@ -3,6 +3,7 @@ package ui;
 import entities.Pedido;
 import entities.Producto;
 import entities.Usuario;
+import enums.Estado;
 import enums.FormaPago;
 import exceptions.DatoInvalidoException;
 import exceptions.EntidadInexistenteException;
@@ -116,7 +117,40 @@ public class MenuPedido extends MenuCRUD {
     @Override
     protected void editar() {
         System.out.println("=== EDITAR PEDIDO ===");
-        pedidoService.editar();
+
+        try {
+            System.out.println("Pedidos disponibles:");
+
+            for (Pedido pedido : pedidoService.listar()) {
+                System.out.println(pedido);
+            }
+
+            System.out.print("Ingrese el ID del pedido que desea modificar: ");
+            String id = solicitarTexto("ID de pedido");
+
+            Pedido pedidoEncontrado = pedidoService.obtenerPorId(id);
+
+            System.out.println("Pedido encontrado:");
+            System.out.println(pedidoEncontrado);
+
+            Estado nuevoEstado = solicitarEstadoOpcional(pedidoEncontrado.getEstado());
+            FormaPago nuevaFormaPago = solicitarFormaPagoOpcional(pedidoEncontrado.getFormaPago());
+
+            if (nuevoEstado == null && nuevaFormaPago == null) {
+                System.out.println("No se realizaron cambios.");
+                return;
+            }
+
+            Pedido pedidoEditado = pedidoService.editar(id, nuevoEstado, nuevaFormaPago);
+
+            System.out.println("Pedido actualizado correctamente:");
+            System.out.println(pedidoEditado);
+
+        } catch (DatoInvalidoException | EntidadInexistenteException | IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 
     @Override
@@ -170,6 +204,58 @@ public class MenuPedido extends MenuCRUD {
             } catch (IllegalArgumentException iae) {
                 System.out.println("Forma de pago inválida. Intente nuevamente.");
             }
+        }
+    }
+
+    private FormaPago solicitarFormaPagoOpcional(FormaPago formaPagoActual) {
+        while (true) {
+            System.out.println("Formas de pago disponibles:");
+            System.out.println("0. Mantener forma de pago actual (" + formaPagoActual + ")");
+
+            FormaPago[] formasPago = FormaPago.values();
+
+            for (int i = 0; i < formasPago.length; i++) {
+                System.out.println((i + 1) + ". " + formasPago[i]);
+            }
+
+            System.out.print("Seleccione nueva forma de pago: ");
+            int opcion = solicitarEntero("forma de pago");
+
+            if (opcion == 0) {
+                return null;
+            }
+
+            if (opcion >= 1 && opcion <= formasPago.length) {
+                return formasPago[opcion - 1];
+            }
+
+            System.out.println("Forma de pago inválida. Intente nuevamente.");
+        }
+    }
+
+    private Estado solicitarEstadoOpcional(Estado estadoActual) {
+        while (true) {
+            System.out.println("Estados disponibles:");
+            System.out.println("0. Mantener estado actual (" + estadoActual + ")");
+
+            Estado[] estados = Estado.values();
+
+            for (int i = 0; i < estados.length; i++) {
+                System.out.println((i + 1) + ". " + estados[i]);
+            }
+
+            System.out.print("Seleccione nuevo estado: ");
+            int opcion = solicitarEntero("estado");
+
+            if (opcion == 0) {
+                return null;
+            }
+
+            if (opcion >= 1 && opcion <= estados.length) {
+                return estados[opcion - 1];
+            }
+
+            System.out.println("Estado inválido. Intente nuevamente.");
         }
     }
 }
