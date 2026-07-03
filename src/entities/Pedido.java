@@ -155,22 +155,29 @@ public class Pedido extends Base implements Calculable {
         this.total = totalCalculado;
     }
 
+    //  Se marca eliminado=true en pedido (y, si corresponde, en sus detalles).
+    public void eliminarLogicamente() {
+        this.setEliminado(true);
+
+        for (DetallePedido detalle : detalles) {
+            detalle.setEliminado(true);
+        }
+    }
+
     // Examen parcial 2: El toString() de Pedido debe mostrar al menos:
     // id, fecha, estado, formaPago y total.
     // TPI: Se muestra: id, usuario asociado, estado, forma de pago, total y fecha.
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         String separadorPedido = "-".repeat(80);
 
+        sb.append(String.format("> Pedido #%d%n", getId()));
+        sb.append("Usuario asociado:%n".formatted());
+        sb.append(getUsuario());
         sb.append(String.format(
-                "> Pedido #%d | Usuario: %s | Estado: %s | FormaPago: %s | Fecha: %s%n",
-                getId(),
-                getUsuario(),
-                estado,
-                formaPago,
-                fecha
+                "Estado: %s | FormaPago: %s | Fecha: %s%n",
+                estado, formaPago, fecha
         ));
 
         sb.append(String.format("%s%n", separadorPedido));

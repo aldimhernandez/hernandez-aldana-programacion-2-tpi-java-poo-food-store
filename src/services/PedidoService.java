@@ -26,6 +26,7 @@ public class PedidoService extends BaseService<Pedido> {
     public List<Pedido> listar() {
         // Se listan solo pedidos no eliminados.
         // Usuarios eliminados: Pedidos existentes del usuario deben seguir pudiendo consultarse (historial).
+        // El pedido eliminado no se muestra en listados.
         List<Pedido> pedidosActivos = new ArrayList<>();
 
         for (Pedido p : pedidos) {
@@ -87,9 +88,13 @@ public class PedidoService extends BaseService<Pedido> {
         System.out.println("PedidoService editar");
     }
 
-    public void eliminar() {
-        //TODO: 
-        System.out.println("PedidoService eliminar");
+    public String eliminar(String id) {
+        Pedido pedidoEncontrado = obtenerPorId(id);
+
+        //  Se marca eliminado=true en pedido (y, si corresponde, en sus detalles).
+        pedidoEncontrado.eliminarLogicamente();
+
+        return pedidoEncontrado.getId().toString();
     }
 
     private void validarDatosPedido(
