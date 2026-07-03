@@ -115,12 +115,43 @@ public class MenuPedido extends MenuCRUD {
 
     @Override
     protected void editar() {
+        System.out.println("=== EDITAR PEDIDO ===");
         pedidoService.editar();
     }
 
     @Override
     protected void eliminar() {
-        pedidoService.eliminar();
+        System.out.println("=== ELIMINAR PEDIDO ===");
+
+        //  Se pide id y confirmación.
+        System.out.print("Ingrese el ID del pedido que desea eliminar: ");
+        String id = solicitarTexto("ID de pedido");
+
+        try {
+            Pedido pedido = pedidoService.obtenerPorId(id);
+
+            System.out.println("Pedido encontrado:");
+            System.out.println(pedido);
+
+            //  Se pide id y confirmación.
+            System.out.println("¿Está seguro que desea eliminar el pedido con ID: " + id + "?");
+            System.out.print("Ingrese si/no: ");
+            String confirmacion = solicitarTexto("confirmación", List.of("si", "no"));
+
+            if (confirmacion.equalsIgnoreCase("no")) {
+                System.out.println("Operación cancelada.");
+                return;
+            }
+
+            String pedidoEliminadoID = pedidoService.eliminar(id);
+
+            System.out.println("Pedido eliminado correctamente. ID: " + pedidoEliminadoID);
+
+        } catch (EntidadInexistenteException eie) {
+            System.out.println("Error: No existe un pedido activo con id: " + id);
+        } catch (RuntimeException re) {
+            System.out.println("Error inesperado: " + re.getMessage());
+        }
     }
 
     private FormaPago solicitarFormaPago() {
