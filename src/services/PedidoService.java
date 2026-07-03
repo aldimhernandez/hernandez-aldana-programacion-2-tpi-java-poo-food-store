@@ -3,6 +3,7 @@ package services;
 import entities.Pedido;
 import entities.Producto;
 import entities.Usuario;
+import enums.Estado;
 import enums.FormaPago;
 import exceptions.DatoInvalidoException;
 import exceptions.EntidadInexistenteException;
@@ -83,9 +84,18 @@ public class PedidoService extends BaseService<Pedido> {
         }
     }
 
-    public void editar() {
-        //TODO: 
-        System.out.println("PedidoService editar");
+    public Pedido editar(String id, Estado nuevoEstado, FormaPago nuevaFormaPago) {
+        Pedido pedidoEncontrado = obtenerPorId(id);
+
+        if (nuevoEstado != null) {
+            pedidoEncontrado.setEstado(nuevoEstado);
+        }
+
+        if (nuevaFormaPago != null) {
+            pedidoEncontrado.setFormaPago(nuevaFormaPago);
+        }
+
+        return pedidoEncontrado;
     }
 
     public String eliminar(String id) {

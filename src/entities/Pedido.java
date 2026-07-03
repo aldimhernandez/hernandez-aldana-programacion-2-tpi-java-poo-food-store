@@ -77,6 +77,10 @@ public class Pedido extends Base implements Calculable {
         }
     }
 
+    public FormaPago getFormaPago() {
+        return formaPago;
+    }
+
     public void setFormaPago(FormaPago formaPago) {
         if (formaPago != null) {
             this.formaPago = formaPago;
