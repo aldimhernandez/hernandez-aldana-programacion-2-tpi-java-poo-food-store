@@ -136,12 +136,6 @@ src/
 
 ---
 
-# Repositorio
-
-https://github.com/aldimhernandez/hernandez-aldana-programacion-2-tpi-java-poo-food-store
-
----
-
 # Proyecto 
 
 https://github.com/users/aldimhernandez/projects/4/views/1?layout=board 
