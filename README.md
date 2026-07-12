@@ -144,10 +144,10 @@ https://github.com/users/aldimhernandez/projects/4/views/1?layout=board
 
 # Video demostrativo
 
-**Pendiente de publicación.**
+https://youtu.be/40kbTrFFPh4
 
 ---
 
 # Documentación
 
-**Pendiente de publicación.**
+doc/documentacion_academica_tecnica.pdf
