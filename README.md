@@ -118,7 +118,6 @@ src/
 # Tecnologías utilizadas
 
 - Java 21
-- Programación Orientada a Objetos
 - Git
 - GitHub
 
@@ -139,12 +138,6 @@ src/
 # Proyecto 
 
 https://github.com/users/aldimhernandez/projects/4/views/1?layout=board 
-
----
-
-# Video demostrativo
-
-https://youtu.be/40kbTrFFPh4
 
 ---
 
